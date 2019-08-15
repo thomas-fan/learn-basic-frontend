@@ -4,7 +4,8 @@ let RADIUS = 8
 let MARGIN_TOP = 60
 let MARGIN_LEFT = 30
 
-const endTime = new Date(2019, 7, 15, 18, 39, 33)
+const endTime = new Date()
+endTime.setTime(endTime.getTime() + 3600 * 1000)
 let curShowTimeSeconds = 0
 
 let balls = []
@@ -152,6 +153,8 @@ function getCurrentShowTimeSeconds() {
     let curTime = new Date()
     let ret = endTime.getTime() - curTime.getTime()
     ret = Math.round(ret / 1000)
+    // 更改为时钟代码
+    // return ret = curTime.getHours() * 3600 + curTime.getMinutes() * 60 + curTime.getSeconds()
     return ret >= 0 ? ret : 0
 }
 
