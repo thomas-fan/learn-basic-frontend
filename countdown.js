@@ -1,8 +1,8 @@
-const WINDOW_WIDTH = 1024
-const WINDOW_HEIGHT = 768
-const RADIUS = 8
-const MARGIN_TOP = 60
-const MARGIN_LEFT = 30
+let WINDOW_WIDTH = 1024
+let WINDOW_HEIGHT = 768
+let RADIUS = 8
+let MARGIN_TOP = 60
+let MARGIN_LEFT = 30
 
 const endTime = new Date(2019, 7, 15, 18, 39, 33)
 let curShowTimeSeconds = 0
@@ -11,6 +11,12 @@ let balls = []
 const colors = ["red", "yellow", "blue", "orange", "gray"];
 
 window.onload = function () {
+    WINDOW_WIDTH = document.body.clientWidth
+    WINDOW_HEIGHT = document.body.clientHeight
+    MARGIN_LEFT = Math.round(WINDOW_WIDTH / 10)
+    RADIUS = Math.round(WINDOW_WIDTH * 4 / 5 / 108) - 1
+    MARGIN_TOP = Math.round(WINDOW_HEIGHT / 5)
+
     let canvas = document.getElementById("canvas")
     canvas.width = WINDOW_WIDTH
     canvas.height = WINDOW_HEIGHT
@@ -74,7 +80,6 @@ function update() {
 }
 
 function updateBalls() {
-    console.log(balls.length)
     for (let i = 0; i < balls.length; i++) {
         balls[i].x += balls[i].vx
         balls[i].y += balls[i].vy
@@ -93,7 +98,7 @@ function updateBalls() {
         }
     }
 
-    while (balls.length >Math.min(cnt, 300)) {
+    while (balls.length > Math.min(cnt, 300)) {
         balls.pop()
     }
 }
