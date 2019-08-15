@@ -74,6 +74,7 @@ function update() {
 }
 
 function updateBalls() {
+    console.log(balls.length)
     for (let i = 0; i < balls.length; i++) {
         balls[i].x += balls[i].vx
         balls[i].y += balls[i].vy
@@ -83,6 +84,17 @@ function updateBalls() {
             balls[i].y = WINDOW_HEIGHT - RADIUS
             balls[i].vy = -balls[i].vy * 0.75
         }
+    }
+
+    let cnt = 0
+    for (let i = 0; i < balls.length; i++) {
+        if (balls[i].x + RADIUS > 0 && balls[i].x - RADIUS < WINDOW_WIDTH) {
+            balls[cnt++] = balls[i]
+        }
+    }
+
+    while (balls.length >Math.min(cnt, 300)) {
+        balls.pop()
     }
 }
 
