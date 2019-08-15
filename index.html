@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<canvas id="canvas" style="border: 1px solid #ccc; display: block; margin: 50px auto;">
+    当前浏览器不支持Canvas，请更换浏览器
+</canvas>
+<script>
+    window.onload = function () {
+        let canvas = document.getElementById("canvas")
+        canvas.width = 1024
+        canvas.height = 768
+        let context = canvas.getContext("2d")
+        if (!context) {
+            alert("当前浏览器不支持Canvas，请更换浏览器")
+            return false;
+        }
+        context.beginPath()
+        context.moveTo(100, 100)
+        context.lineTo(700, 700)
+        context.lineTo(100, 700)
+        context.lineTo(100, 100)
+        context.closePath()
+
+        context.stroke()
+    }
+
+
+</script>
+</body>
+</html>
