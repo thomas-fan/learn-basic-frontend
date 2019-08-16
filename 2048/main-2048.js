@@ -2,9 +2,81 @@ let board = []
 let score = 0
 let hasConflicted = []
 
+let startX = 0
+let startY = 0
+let endX = 0
+let endY = 0
+
 $(document).ready(function () {
+    prepareForMobile()
     newGame()
 })
+
+$(document).on('touchstart', function (event) {
+    startX = event.touches[0].pageX
+    startY = event.touches[0].pageY
+})
+
+$(document).on('touchend', function (event) {
+    endX = event.changedTouches[0].pageX
+    endY = event.changedTouches[0].pageY
+
+    let deltaX = endX - startX
+    let deltaY = endY - startY
+
+    if (Math.abs(deltaX) >= Math.abs(deltaY)) {
+        if (deltaX>0) {
+            if (moveRight()) {
+                setTimeout(generateOneNumber, 210)
+                setTimeout(isGameOver, 300)
+            }
+        }else {
+            if (moveLeft()) {
+                setTimeout(generateOneNumber, 210)
+                setTimeout(isGameOver, 300)
+            }
+
+        }
+
+
+
+    }else {
+        if (deltaY>0) {
+            if (moveDown()) {
+                setTimeout(generateOneNumber, 210)
+                setTimeout(isGameOver, 300)
+            }
+
+        }else {
+            if (moveUp()) {
+                setTimeout(generateOneNumber, 210)
+                setTimeout(isGameOver, 300)
+            }
+        }
+
+    }
+})
+
+function prepareForMobile() {
+    if (documentWidth > 500) {
+        gridContainerWidth = 500
+        cellSpace = 20
+        cellSideLength = 100
+    }
+    $('#grid-container').css({
+        'width': gridContainerWidth - 2 * cellSpace,
+        'height': gridContainerWidth - 2 * cellSpace,
+        'padding': cellSpace,
+        'border-radius': 0.02 * gridContainerWidth,
+    })
+
+    $('.grid-cell').css({
+        'width': cellSideLength,
+        'height': cellSideLength,
+        'border-radius': 0.02 * gridContainerWidth
+    })
+
+}
 
 function newGame() {
     // 初始化棋盘格
@@ -47,12 +119,12 @@ function updateBoardView() {
             if (board[i][j] === 0) {
                 theNumberCell.css("width", "0px")
                 theNumberCell.css("height", "0px")
-                theNumberCell.css("top", getPosTop(i, j) + 50)
-                theNumberCell.css("left", getPosLeft(i, j) + 50)
+                theNumberCell.css("top", getPosTop(i, j) + cellSideLength / 2)
+                theNumberCell.css("left", getPosLeft(i, j) + cellSideLength / 2)
 
             } else {
-                theNumberCell.css("width", "100px")
-                theNumberCell.css("height", "100px")
+                theNumberCell.css("width", cellSideLength + 'px')
+                theNumberCell.css("height", cellSideLength + 'px')
                 theNumberCell.css("top", getPosTop(i, j))
                 theNumberCell.css("left", getPosLeft(i, j))
                 theNumberCell.css("background-color", getNumberBackgroundColor(board[i][j]))
@@ -62,6 +134,10 @@ function updateBoardView() {
             hasConflicted[i][j] = false
 
         }
+        $('.number-cell').css({
+            'line-height': cellSideLength + 'px',
+            'font-size': 0.6 * cellSideLength + 'px'
+        })
     }
 }
 

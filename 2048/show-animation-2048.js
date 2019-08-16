@@ -5,8 +5,8 @@ function showNumberWithAnimation(x, y, num) {
     numberCell.text(num)
 
     numberCell.animate({
-        width: "100px",
-        height: "100px",
+        width: cellSideLength +"px",
+        height: cellSideLength+"px",
         top: getPosTop(x, y),
         left: getPosLeft(x, y)
     }, 50)
