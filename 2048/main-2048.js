@@ -23,14 +23,17 @@ $(document).on('touchend', function (event) {
 
     let deltaX = endX - startX
     let deltaY = endY - startY
+    if (Math.abs(deltaX) < 0.3 * documentWidth && Math.abs(deltaY) < 0.3 * documentWidth) {
+        return false
+    }
 
     if (Math.abs(deltaX) >= Math.abs(deltaY)) {
-        if (deltaX>0) {
+        if (deltaX > 0) {
             if (moveRight()) {
                 setTimeout(generateOneNumber, 210)
                 setTimeout(isGameOver, 300)
             }
-        }else {
+        } else {
             if (moveLeft()) {
                 setTimeout(generateOneNumber, 210)
                 setTimeout(isGameOver, 300)
@@ -39,15 +42,14 @@ $(document).on('touchend', function (event) {
         }
 
 
-
-    }else {
-        if (deltaY>0) {
+    } else {
+        if (deltaY > 0) {
             if (moveDown()) {
                 setTimeout(generateOneNumber, 210)
                 setTimeout(isGameOver, 300)
             }
 
-        }else {
+        } else {
             if (moveUp()) {
                 setTimeout(generateOneNumber, 210)
                 setTimeout(isGameOver, 300)
@@ -55,6 +57,10 @@ $(document).on('touchend', function (event) {
         }
 
     }
+})
+
+$('document').on('touchmove', function (event) {
+    event.preventDefault()
 })
 
 function prepareForMobile() {
@@ -185,24 +191,28 @@ function generateOneNumber() {
 $(document).keydown(function (event) {
     switch (event.keyCode) {
         case 37:    // left
+            event.preventDefault()
             if (moveLeft()) {
                 setTimeout(generateOneNumber, 210)
                 setTimeout(isGameOver, 300)
             }
             break
         case 38:    // up
+            event.preventDefault()
             if (moveUp()) {
                 setTimeout(generateOneNumber, 210)
                 setTimeout(isGameOver, 300)
             }
             break
         case 39:    // right
+            event.preventDefault()
             if (moveRight()) {
                 setTimeout(generateOneNumber, 210)
                 setTimeout(isGameOver, 300)
             }
             break
         case 40:    // down
+            event.preventDefault()
             if (moveDown()) {
                 setTimeout(generateOneNumber, 210)
                 setTimeout(isGameOver, 300)
