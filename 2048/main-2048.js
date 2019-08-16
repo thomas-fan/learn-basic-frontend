@@ -7,23 +7,44 @@ let startY = 0
 let endX = 0
 let endY = 0
 
+document.body.addEventListener('touchmove', function (event) {
+    event.preventDefault()
+}, {passive: false})
+
 $(document).ready(function () {
     prepareForMobile()
     newGame()
 })
 
+$('#newGameButton').on('click', function (event) {
+    score = 0
+    updateScore(score)
+    newGame()
+})
+
+$('#newGameButton').on('touchstart', function (event) {
+    score = 0
+    updateScore(score)
+    newGame()
+})
+
+
 $(document).on('touchstart', function (event) {
     startX = event.touches[0].pageX
     startY = event.touches[0].pageY
+    event.preventDefault()
 })
 
+
+
 $(document).on('touchend', function (event) {
+    event.preventDefault()
     endX = event.changedTouches[0].pageX
     endY = event.changedTouches[0].pageY
 
     let deltaX = endX - startX
     let deltaY = endY - startY
-    if (Math.abs(deltaX) < 0.3 * documentWidth && Math.abs(deltaY) < 0.3 * documentWidth) {
+    if (Math.abs(deltaX) < 0.2 * documentWidth && Math.abs(deltaY) < 0.2 * documentWidth) {
         return false
     }
 
@@ -57,10 +78,6 @@ $(document).on('touchend', function (event) {
         }
 
     }
-})
-
-$('document').on('touchmove', function (event) {
-    event.preventDefault()
 })
 
 function prepareForMobile() {
@@ -246,13 +263,13 @@ function moveUp() {
                         showMoveAnimation(i, j, k, j)
                         board[k][j] = board[i][j]
                         board[i][j] = 0
-                    } else if (board[k][j] === board[i][j] && noBLockVertical(j, i, k, board) && !hasConflicted[i][k]) {
+                    } else if (board[k][j] === board[i][j] && noBLockVertical(j, i, k, board) && !hasConflicted[k][j]) {
                         showMoveAnimation(i, j, k, j)
 
                         board[k][j] += board[i][j]
                         board[i][j] = 0;
                         score += board[i][k]
-                        hasConflicted[i][k] = true
+                        hasConflicted[k][j] = true
                         updateScore(score)
                     }
                 }
@@ -278,14 +295,14 @@ function moveDown() {
                         showMoveAnimation(i, j, k, j)
                         board[k][j] = board[i][j]
                         board[i][j] = 0
-                    } else if (board[k][j] === board[i][j] && noBLockVertical(j, i, k, board) && !hasConflicted[i][k]) {
+                    } else if (board[k][j] === board[i][j] && noBLockVertical(j, i, k, board) && !hasConflicted[k][j]) {
                         showMoveAnimation(i, j, k, j)
 
                         board[k][j] += board[i][j]
                         board[i][j] = 0;
-                        score += board[i][k]
+                        score += board[k][j]
                         updateScore(score)
-                        hasConflicted[i][k] = true
+                        hasConflicted[k][j] = true
                     }
                 }
             }
@@ -349,7 +366,7 @@ function moveLeft() {
                         // add
                         score += board[i][k]
                         updateScore(score)
-
+                        hasConflicted[i][k] = true
                     }
                 }
             }
